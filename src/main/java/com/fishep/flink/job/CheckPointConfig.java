@@ -2,6 +2,7 @@ package com.fishep.flink.job;
 
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.configuration.CheckpointingOptions;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
@@ -17,8 +18,8 @@ public class CheckPointConfig {
     public static void main(String[] args) throws Exception {
 
         Configuration config = new Configuration();
-//        config.set(CheckpointingOptions.CHECKPOINT_STORAGE, "filesystem");
-//        config.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, "hdfs://127.0.0.1:8020/chk");
+        config.set(CheckpointingOptions.CHECKPOINT_STORAGE, "filesystem");
+        config.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, "hdfs://127.0.0.1:8020/chk");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(config);
         env.setParallelism(1);
 
@@ -26,7 +27,7 @@ public class CheckPointConfig {
 
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
         CheckpointConfig checkpointConfig = env.getCheckpointConfig();
-        checkpointConfig.setCheckpointStorage(hdfs);
+//        checkpointConfig.setCheckpointStorage(hdfs);
 
         checkpointConfig.setCheckpointTimeout(60000);
         checkpointConfig.setMaxConcurrentCheckpoints(1);
